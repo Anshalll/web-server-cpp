@@ -6,14 +6,16 @@
 
 using namespace std;
 
-
+#define PORT 8080
+#define BUFFER_SIZE 1024
 
 class Server{
     public:     
-        int PORT = 8080; 
         int server_fd, client_socket;
         struct sockaddr_in address;
-    
+        int addrlen = sizeof(address);
+        char buffer[BUFFER_SIZE] = {0};
+
     int CreateServer(){
     
             server_fd = socket(AF_INET , SOCK_STREAM, 0);
@@ -39,11 +41,35 @@ class Server{
                 };
             };
             
+            // Start listening (max 3 clients in queue)
+            if (listen(server_fd, 3) < 0) {
+                perror("Listen failed");
+                exit(EXIT_FAILURE);
+            };            
             
-    };
-    
-    
+            cout << "Listening on port " << PORT << endl;
 
+    };
+
+    void AcceptConnections(){
+        while (true){
+                
+            client_socket = accept(server_fd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
+            
+                if(client_socket < 0){
+                    
+                    cerr << "Accept failed\n";
+                    exit(1);
+                };
+                
+
+                // Read http request
+            
+                read(client_socket , buffer,  BUFFER_SIZE);
+                cout << "Received request: \n" << buffer << endl;
+            
+        };
+    };
 };
 
 int main(int argc , char *argv[]){
@@ -51,7 +77,7 @@ int main(int argc , char *argv[]){
     Server main;
 
 
-    
+    main.AcceptConnections();
 
     return 0;
 }
