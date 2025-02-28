@@ -56,18 +56,31 @@ class Server{
                 
             client_socket = accept(server_fd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
             
-                if(client_socket < 0){
+            if(client_socket < 0){
                     
-                    cerr << "Accept failed\n";
-                    exit(1);
-                };
+                cerr << "Accept failed\n";
+                exit(1);
+            };
                 
 
-                // Read http request
+            // Read http request
             
-                read(client_socket , buffer,  BUFFER_SIZE);
-                cout << "Received request: \n" << buffer << endl;
-            
+            read(client_socket , buffer,  BUFFER_SIZE);
+            cout << "Received request: \n" << buffer << endl;
+                
+
+            // Send response
+            string response = 
+                "HTTP/1.1 200 OK\r\n"
+                "Content-Type: text/html\r\n"
+                "Content-Length: 13\r\n"
+                "\r\n"
+                "Hello, World!";
+            send(client_socket, response.c_str(), response.length(), 0);
+
+            // Close connection
+            close(client_socket);
+
         };
     };
 };
