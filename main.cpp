@@ -4,6 +4,7 @@
 #include <unistd.h> 
 #include <cstdlib>
 #include <cstring>
+#include "requests.h"
 
 using namespace std;
 
@@ -14,12 +15,14 @@ using namespace std;
 
 
 class Server{
-    public:     
+    public:   
+        
         int server_fd, client_socket;
         struct sockaddr_in address;
         int addrlen = sizeof(address);
         char buffer[BUFFER_SIZE] = {0};
-    
+        
+      
         string responsestring(size_t length , const string &content, string &contentType) {
            // Send response
             string response = 
@@ -35,6 +38,7 @@ class Server{
     void SendJson(const char *contents){
 
         string type = "application/json";
+
         string response = responsestring(strlen(contents) , string(contents) ,  type);
 
         send(client_socket, response.c_str(), response.length(), 0);
@@ -80,7 +84,7 @@ class Server{
 
     };
 
-    void AcceptConnections(){
+    void Run(){
         while (true){
                 
             client_socket = accept(server_fd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
@@ -96,10 +100,10 @@ class Server{
             
             read(client_socket , buffer,  BUFFER_SIZE);
             cout << "Received request: \n" << buffer << endl;
-                
-           
             
-            SendJson(R"({"message" : "This is anshal"})");  
+
+            Requestobj value = setRequest(buffer);
+            
 
             // Close connection
             close(client_socket);
@@ -111,12 +115,13 @@ class Server{
 
 
 
-int main(int argc , char *argv[]){
+int main() {
     
     Server main;
-
-
-    main.AcceptConnections();
+    main.Run();
+    
 
     return 0;
+
+
 }
