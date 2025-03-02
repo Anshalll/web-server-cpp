@@ -10,6 +10,8 @@
 #include <cstdlib>
 #include <cstring>
 #include "requests.h"
+#include "response.h"
+
 
 using namespace std;
 
@@ -20,9 +22,10 @@ using namespace std;
 
 
 class Server{
+
     public:   
         
-        int server_fd, client_socket;
+        int server_fd;
         struct sockaddr_in address;
         int addrlen = sizeof(address);
         char buffer[BUFFER_SIZE] = {0};
@@ -40,16 +43,7 @@ class Server{
             return response;
         };
 
-    void SendJson(const char *contents){
-
-        string type = "application/json";
-
-        string response = responsestring(strlen(contents) , string(contents) ,  type);
-
-        send(client_socket, response.c_str(), response.length(), 0);
-                  
-        
-    };
+  
 
 
     
@@ -91,10 +85,10 @@ class Server{
 
     void Run(){
         while (true){
-                
-            client_socket = accept(server_fd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
             
-            if(client_socket < 0){
+            clientStruct.client_socket = accept(server_fd , (struct sockaddr*)&address , (socklen_t*)&addrlen);
+            
+            if(clientStruct.client_socket < 0){
                     
                 cerr << "Accept failed\n";
                 exit(1);
@@ -103,7 +97,7 @@ class Server{
 
             // Read http request
             
-            read(client_socket , buffer,  BUFFER_SIZE);
+            read(clientStruct.client_socket , buffer,  BUFFER_SIZE);
             cout << "Received request: \n" << buffer << endl;
             
            
@@ -122,7 +116,7 @@ class Server{
                 };
             };
             // Close connection
-            close(client_socket);
+            close(clientStruct.client_socket);
 
         };
     };

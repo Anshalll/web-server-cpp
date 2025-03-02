@@ -1,21 +1,23 @@
-#include <iostream>
 #include "server.h"
 #include "requests.h"
+#include "response.h"
+
+
 
 using namespace std;
 
 
 void Index(Requestobj& req) {
 
-    cout << "This is index page " <<  req.url << endl;
-    
+    SendJson(R"({"message": "This is index page"})");    
+
+
 };
 
 void Hello(Requestobj& req){
     
 
-    cout << "This is Hello page" << req.url << endl;
-        
+       SendJson(R"({"message": "This is hello page"})");
 };
 
 int main() {
