@@ -30,24 +30,6 @@ class Server{
         int addrlen = sizeof(address);
         char buffer[BUFFER_SIZE] = {0};
         
-      
-        string responsestring(size_t length , const string &content, string &contentType) {
-           // Send response
-            string response = 
-                "HTTP/1.1 200 OK\r\n"
-                "Content-Type: " + contentType + "\r\n"
-                "Content-Length: " + to_string(length) + "\r\n"
-                "\r\n" + 
-                content;  
-
-            return response;
-        };
-
-  
-
-
-    
-   
     int CreateServer(){
     
             server_fd = socket(AF_INET , SOCK_STREAM, 0);
@@ -105,7 +87,7 @@ class Server{
             
             setRequest(buffer);
                 
-            for(const auto &pair : setmain) {
+            for(const auto &pair : setget) {
                 
                 if(pair.first == req.url)
                 {

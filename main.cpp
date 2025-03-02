@@ -1,7 +1,6 @@
-#include "server.h"
 #include "requests.h"
 #include "response.h"
-
+#include "server.h"
 
 
 using namespace std;
