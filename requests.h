@@ -1,14 +1,17 @@
 #ifndef REQUESTS_H
 #define REQUESTS_H
 
+#include <functional>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <unordered_map>
 
 
 using namespace std;
 
 struct Requestobj{
+    
         string method;
         string url;
         string body;
@@ -17,10 +20,17 @@ struct Requestobj{
 };
 
 
-Requestobj setRequest(const string &buffer){
+Requestobj req;
+using functionType = function<void(Requestobj&)>;
+unordered_map<string, functionType> setmain;
+
+
+void setRequest(const string &buffer){
         
 
-        Requestobj req;
+
+
+    
         string line;
             
         istringstream stream(buffer);
@@ -28,14 +38,25 @@ Requestobj setRequest(const string &buffer){
           
             istringstream firstline(line);
             firstline >> req.method >> req.url;
-
+            
 
             
         };
     
-
+    
             
-        return req;
 };
+
+void GET(const string &url , void (*func)(Requestobj&)) {
+    
+    
+    
+    
+    setmain.insert({url , func});
+    
+     
+            
+       
+}
 
 #endif
