@@ -15,8 +15,9 @@ void Index(Requestobj& req) {
 
 void Hello(Requestobj& req){
     
+    SendHTML("index.html");
 
-       SendJson(R"({"message": "This is hello page"})");
+    
 };
 
 int main() {

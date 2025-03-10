@@ -17,6 +17,6 @@ extern client clientStruct;
 // Function Declarations
 string responseString(size_t length, const string &content, const string &contentType);
 void SendJson(const char *contents);
-
+void SendHTML(const string &path);
 #endif
 
