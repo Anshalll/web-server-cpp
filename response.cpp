@@ -38,4 +38,16 @@ void SendHTML(const string &path){
 
     send(clientStruct.client_socket , response.c_str() , response.length() , 0);
 
+
+
+
 };
+
+void SendText(const string &text){
+    string type = "text/html";
+    string response = responseString(text.length() , text, type);
+    send(clientStruct.client_socket , response.c_str() , response.length() , 0);
+    
+};
+
+
