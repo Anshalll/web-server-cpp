@@ -1,7 +1,7 @@
 #include "requests.h"
 #include "response.h"
 #include "server.h"
-
+#include <iostream>
 
 using namespace std;
 
@@ -21,6 +21,9 @@ void Hello(Requestobj& req){
 };
 
 void Register(Requestobj& req){
+    
+    cout << req.body << endl;
+
     SendText("<h1>This is my web server</h1>");
 
 };
@@ -32,7 +35,7 @@ int main() {
 
     GET("/home" , Index);
     GET("/hello" , Hello);
-    GET("/register" , Register); 
+    POST("/register" , Register); 
     app.Run();
 
     return 0;

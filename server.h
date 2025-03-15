@@ -87,16 +87,30 @@ class Server{
             
             setRequest(buffer);
                 
-            for(const auto &pair : setget) {
+            if(req.method == "GET") {
+             for(const auto &pair : setget) {
                 
                 if(pair.first == req.url)
                 {
-                    
                     pair.second(req);
                     
 
                 };
             };
+
+            }
+            else{
+               for(const auto &pair : setpost) {
+                
+                if(pair.first == req.url)
+                {
+                    pair.second(req);
+                    
+
+                };
+            }; 
+            };
+           
             // Close connection
             close(clientStruct.client_socket);
 
