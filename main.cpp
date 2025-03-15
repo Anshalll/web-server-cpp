@@ -24,7 +24,7 @@ void Register(Requestobj& req){
     
     cout << req.body << endl;
 
-    SendText("<h1>This is my web server</h1>");
+    SendText("<h1>This is my web " +   req.url +  req.method +  " </h1>");
 
 };
 
@@ -35,7 +35,8 @@ int main() {
 
     GET("/home" , Index);
     GET("/hello" , Hello);
-    POST("/register" , Register); 
+    POST("/register" , Register);
+ 
     app.Run();
 
     return 0;

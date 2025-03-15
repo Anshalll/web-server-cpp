@@ -99,7 +99,7 @@ class Server{
             };
 
             }
-            else{
+            else if(req.method == "POST"){
                for(const auto &pair : setpost) {
                 
                 if(pair.first == req.url)
@@ -109,8 +109,51 @@ class Server{
 
                 };
             }; 
-            };
+            }
+            else if(req.method == "PUT"){
+                for(const auto &pair : setput) {
+                
+                if(pair.first == req.url)
+                {
+                    pair.second(req);
+                    
+
+                };
+             }; 
+ 
+            }
+            else if(req.method == "PATCH"){
            
+               for(const auto &pair : setpatch) {
+                
+                if(pair.first == req.url)
+                {
+                    pair.second(req);
+                    
+
+                };
+             }; 
+ 
+            }
+            else if(req.method == "DELETE"){
+               
+               for(const auto &pair : setdel) {
+                
+                if(pair.first == req.url)
+                {
+                    pair.second(req);
+                    
+
+                };
+             }; 
+ 
+            }
+            else{
+                cout << "Method not allowed";
+            };
+
+
+                   
             // Close connection
             close(clientStruct.client_socket);
 
